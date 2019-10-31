@@ -1,0 +1,52 @@
+☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆feign单独使用☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆
+===加入依赖
+	<dependencies>
+		<!-- feign -->
+		<dependency>
+		    <groupId>io.github.openfeign</groupId>
+		    <artifactId>feign-core</artifactId>
+		    <version>10.1.0</version>
+		</dependency>
+		<!-- feign-gson -->
+		<dependency>
+		    <groupId>io.github.openfeign</groupId>
+		    <artifactId>feign-gson</artifactId>
+		    <version>10.1.0</version>
+		</dependency>
+		<!-- gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.2</version>
+		</dependency>
+	</dependencies>
+	
+===创建interface接口
+	创建interface接口，并利用@RequestLine来标注
+	例如：
+		@RequestLine("GET /hello")
+		public String hello();
+	标注中前面的GET表示请求方式，利用GET方法进行请求
+	后面是URI（并不是URL，有一定区别）
+	
+	接口使用参数：
+		@RequestLine("GET /find/{id}")
+		public User find(@Param("id") int id);
+	
+===调用接口
+	HelloClient client = Feign.builder()
+		.target(HelloClient.class, 
+				"http://localhost:8080");
+	String result = client.hello();
+	
+	HelloClient.class这个参数表示使用的接口
+	而后面的http://localhost:8080表示url地址
+	如果最后调用restful的结果为string，用上面方法即可，
+	如果是返回的参数时自建的Object，则要在创建接口的时候
+	添加decoder，代码如下：
+		HelloClient client = Feign.builder()
+			.decoder(new GsonDecoder())
+			.target(HelloClient.class, 
+					"http://localhost:8080");
+	
+
