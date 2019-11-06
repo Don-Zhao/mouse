@@ -1,13 +1,22 @@
 package com.mouse.model;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlRootElement
 public class User {
 	
+	@XmlElement
 	private int id;
 	
+	@XmlElement
 	private String name;
 	
+	@XmlElement
 	private String url;
 
+	@XmlTransient
 	public int getId() {
 		return id;
 	}
@@ -16,6 +25,7 @@ public class User {
 		this.id = id;
 	}
 
+	@XmlTransient
 	public String getName() {
 		return name;
 	}
@@ -24,6 +34,7 @@ public class User {
 		this.name = name;
 	}
 
+	@XmlTransient
 	public String getUrl() {
 		return url;
 	}
@@ -36,5 +47,14 @@ public class User {
 		super();
 		this.id = id;
 		this.name = name;
+	}
+	
+	@Override
+	public String toString() {
+		return "User[id=" + id + ",name=" + name + ",url=" + url + "]";
+	}
+	
+	public User() {
+		
 	}
 }
